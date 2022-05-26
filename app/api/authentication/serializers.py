@@ -346,8 +346,7 @@ class RetriveUserSerializer(serializers.ModelSerializer):
         """
 
         # get the instance -> Dict of primitive data types
-        representation = super(RetriveUserSerializer,
-                               self).to_representation(instance)
+        representation = super(RetriveUserSerializer, self).to_representation(instance)
         # manipulate returned dictionary as desired
         dat = dict(representation)
         del dat['first_name']
