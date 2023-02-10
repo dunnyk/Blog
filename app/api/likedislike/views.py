@@ -13,10 +13,9 @@ class ArticleLikeApiView(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = LikeDislikeSerializers
 
-    def post(self, action):
-        like_article()
+    def post(self, request, action):
+        like_article(request, 'like')
         return_message = {
             "message": f"You {action}d",
-
-            }
+        }
         return Response(return_message, status.HTTP_201_CREATED)
