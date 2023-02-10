@@ -36,8 +36,7 @@ def get_token_data(token):
         user (obj): valid user object
     """
     try:
-        payload = jwt.decode(
-            token, settings.SECRET_KEY, algorithms="HS256", )
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
         user = User.objects.get(email=payload['email'])
     except Exception as error:
         exception_mapper = {

@@ -35,7 +35,16 @@ class UserFollowAPIView(generics.CreateAPIView):
 
     def get(self, request):#querrying social model social=Social.objects.all() think follower as social for description
         follower = Social.objects.all()
-        serializer = self.serializer_class(follower, many=True)
+    def post(self, request):
+        """
+        Handles following
+        """
+        follow = request.data#user from browser sending request
+        serializer = self.serializer_class(data=follow)
+        serializer.is_valid(raise_exception=True)
+        followee_id=request.data['followee']
+        followee = User.objects.get(pk=followee_id)
+        serializer = self.serializer_class(followee, many=False)
         return_message = {
             "message":"All followers retrieved successfully",
             "data":serializer.data

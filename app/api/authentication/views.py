@@ -26,7 +26,7 @@ class RegistrationAPIView(generics.CreateAPIView):
 
     def post(self, request):
         """
-        Handle user login
+        Handle user registration
         """
         user = request.data
 
@@ -96,7 +96,7 @@ class RetrieveUserApiView(generics.RetrieveAPIView):
     renderer_classes = (RequestJSONRenderer,)
     serializer_class = RegistrationSerializer
 
-    def get(self, user_id):
+    def get(self, request, user_id):
         user_obj = User.objects.get(pk=user_id)
         serializer = self.serializer_class(user_obj)
         return_message = {
@@ -114,7 +114,7 @@ class VerifyAPIView(generics.RetrieveAPIView):
     renderer_classes = (RequestJSONRenderer,)
 
     @classmethod
-    def get(cls, token):
+    def get(cls, request, token):
         """
         Overide the default get method
         """

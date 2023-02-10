@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from django.conf import settings
 import jwt
 
+
 class UserManager(BaseUserManager):
     """
     Django requires that custom users define their own Manager class. By
@@ -21,12 +22,16 @@ class UserManager(BaseUserManager):
 
     def create_user(self, *args, **kwargs):
         """Create and return a `User` with an email, username and password."""
-        password = kwargs.get('password', '')#the empty quotes means, if pawd not there, pswd will be empty.
-        email = kwargs.get('email', '')#the empty quotes means, if pawd not there, default is empty
-        del kwargs['email']#remove email kwargs so as we normalize it/ie make sure domain name does not change.
-        del kwargs['password']#remove pswd so not to be passed as raw. pswd must always be encripted.
+        password = kwargs.get(
+            'password', '')  # the empty quotes means, if pawd not there, pswd will be empty.
+        # the empty quotes means, if pawd not there, default is empty
+        email = kwargs.get('email', '')
+        # remove email kwargs so as we normalize it/ie make sure domain name does not change.
+        del kwargs['email']
+        # remove pswd so not to be passed as raw. pswd must always be encripted.
+        del kwargs['password']
         user = self.model(email=self.normalize_email(email), **kwargs)
-        user.set_password(password)#when pswd is set, it becomes encripted.
+        user.set_password(password)  # when pswd is set, it becomes encripted.
         user.save()
 
         return user
@@ -52,7 +57,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     first_name = models.CharField(db_index=True, max_length=255, unique=False)
     last_name = models.CharField(db_index=True, max_length=255, unique=False)
-    username = models.CharField(db_index=True, max_length=255, unique=True, default="default-username")
+    username = models.CharField(
+        db_index=True, max_length=255, unique=True, default="default-username")
     email = models.EmailField(db_index=True, unique=True)
     is_active = models.BooleanField(default=False)
 
@@ -77,7 +83,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
 
     @property
     def token(self):
-        #This method generates and returns a string of the token generated.
+        # This method generates and returns a string of the token generated.
 
         date = datetime.now() + timedelta(hours=settings.TOKEN_EXP_TIME)
 
