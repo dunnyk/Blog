@@ -35,11 +35,10 @@ class RegistrationAPIView(generics.CreateAPIView):
 
         serializer.save()
 
-        data = serializer.data
+        data = serializer.validated_data
 
         user_email = data['email']
         first_name = data['first_name']
-
 
         date = datetime.now() + timedelta(hours=settings.TOKEN_EXP_TIME)
         user = User.objects.get(email=user_email)
@@ -51,7 +50,6 @@ class RegistrationAPIView(generics.CreateAPIView):
             'username': data['username']
         }
         token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
-
 
         domain = settings.VERIFY_URL
         url = domain + token
@@ -73,7 +71,6 @@ class RegistrationAPIView(generics.CreateAPIView):
         return Response(return_message, status=status.HTTP_201_CREATED)
 
 
-
 class ProfileApiView(generics.RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     renderer_classes = (RequestJSONRenderer,)
@@ -86,7 +83,7 @@ class ProfileApiView(generics.RetrieveAPIView):
         data = serializer.data
         return_message = {
             "message": "Profile retrieved succesfully",
-            "data":data
+            "data": data
         }
         return Response(return_message, status=status.HTTP_200_OK)
 
