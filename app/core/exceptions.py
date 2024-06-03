@@ -1,5 +1,6 @@
 from rest_framework.views import exception_handler
 
+
 def core_exception_handler(exc, context):
     # If an exception is thrown that we don't explicitly handle here, we want
     # to delegate to the default exception handler offered by DRF. If we do
