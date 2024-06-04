@@ -9,7 +9,7 @@ def send_email_notification(user, recipient):
     notification will be sent whether on/off net.
     """
     subject = 'New article'
-    body =  f"{user.username} has Posted a new article"
+    body = f"{user.username} has Posted a new article"
     message = f'{user.username} You cannot afford to miss this'
     send_mail_.delay(
         subject=subject,

@@ -330,14 +330,14 @@ class RetriveUserSerializer(serializers.ModelSerializer):
         serializer = FollowerSerializerRetriever(followers, many=True)
 
         folls = []
-        for user in  serializer.data:
+        for user in serializer.data:
             user = list(user.values())[0]
             user = User.objects.get(email=user)
             usser = RegistrationSerializer(user)
             folls.append(usser.data)
         return folls
 
-    def to_representation(self,instance):
+    def to_representation(self, instance):
         """
         Override the default to_representation
         to return values only
@@ -352,6 +352,6 @@ class RetriveUserSerializer(serializers.ModelSerializer):
         del dat['first_name']
         return dat
 
-    class Meta:#serializers deturmine what is displayed on postman(NOTE)
+    class Meta:  # serializers deturmine what is displayed on postman(NOTE)
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'is_active', 'followers')

@@ -66,7 +66,8 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     REQUIRED_FIELDS = ['username', 'first_name',
                        'last_name']
 
-    # Tells Django that the UserManager class defined above should manage objects of this type.
+    # Tells Django that the UserManager class defined above should manage
+    # objects of this type.
     objects = UserManager()
 
     def __str__(self):

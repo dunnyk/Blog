@@ -13,11 +13,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import include, path
-from django.conf.urls import url
+from django.urls import re_path as url
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework_swagger.views import get_swagger_view
 from rest_framework import permissions
+from rest_framework.routers import DefaultRouter
 
 schema_view_ = get_schema_view(
     openapi.Info(
@@ -29,13 +30,15 @@ schema_view_ = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 swagger_ui_view = get_swagger_view()
+router = DefaultRouter()
+
 
 urlpatterns = [
     url(r'^docs/$', schema_view_.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     url(r'^docs(?P<format>\.json|\.yaml)$', schema_view_.without_ui(cache_timeout=0), name='schema-json'),
     url(r'^redoc/$', schema_view_.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     url(r'^docs/$', swagger_ui_view),
-    path('users/', include(('app.api.authentication.urls', 'authentication'), namespace='authentication')),
+    # path('users/', include(('app.api.authentication.urls', 'authentication'), namespace='authentication')),
     path('article/', include(('app.api.article.urls', 'article'), namespace='article')),
     path('comment/', include(('app.api.comment.urls', 'comment'), namespace='comment')),
     path('social/', include(('app.api.social.urls', 'social'), namespace='social')),
