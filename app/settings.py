@@ -155,10 +155,6 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Africa/Nairobi'
 VERIFY_URL = os.getenv('VERIFY_URL_PROD', '')
 
-print("Environment Variables:")
-print("CELERY_BROKER_URL:", os.getenv('CELERY_BROKER_URL'))
-print("CELERY_RESULT_BACKEND:", os.getenv('CELERY_RESULT_BACKEND'))
-
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY', '')
 EMAIL_HOST = os.getenv('EMAIL_HOST', '')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
