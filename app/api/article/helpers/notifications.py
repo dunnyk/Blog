@@ -5,8 +5,10 @@ from ...authentication.tasks import send_mail_
 
 
 def send_email_notification(user, recipient):
-    """This user is the person logged in, author of article, recipient is the follower.
-    notification will be sent whether on/off net.
+    """
+        This user is the person logged in, author of article,
+        recipient is the follower.
+        notification will be sent whether on/off net.
     """
     subject = 'New article'
     body = f"{user.username} has Posted a new article"
@@ -32,4 +34,4 @@ def send_notifications(author):
     """
     followers = Social.objects.filter(followee=author.id)
     for follower in followers:
-        send_email_notification(author,follower.follower.email)
+        send_email_notification(author, follower.follower.email)
