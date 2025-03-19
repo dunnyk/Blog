@@ -38,7 +38,7 @@ urlpatterns = [
     url(r'^docs(?P<format>\.json|\.yaml)$', schema_view_.without_ui(cache_timeout=0), name='schema-json'),
     url(r'^redoc/$', schema_view_.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     url(r'^docs/$', swagger_ui_view),
-    # path('users/', include(('app.api.authentication.urls', 'authentication'), namespace='authentication')),
+    path('users/', include(('app.api.authentication.urls', 'authentication'), namespace='authentication')),
     path('article/', include(('app.api.article.urls', 'article'), namespace='article')),
     path('comment/', include(('app.api.comment.urls', 'comment'), namespace='comment')),
     path('social/', include(('app.api.social.urls', 'social'), namespace='social')),

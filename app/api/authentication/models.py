@@ -1,7 +1,9 @@
 from django.db import models
 import jwt
 from django.contrib.auth.models import (
-    AbstractBaseUser, BaseUserManager, PermissionsMixin
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
 )
 
 from django.db import models
@@ -23,13 +25,14 @@ class UserManager(BaseUserManager):
     def create_user(self, *args, **kwargs):
         """Create and return a `User` with an email, username and password."""
         password = kwargs.get(
-            'password', '')  # the empty quotes means, if pawd not there, pswd will be empty.
+            "password", ""
+        )  # the empty quotes means, if pawd not there, pswd will be empty.
         # the empty quotes means, if pawd not there, default is empty
-        email = kwargs.get('email', '')
+        email = kwargs.get("email", "")
         # remove email kwargs so as we normalize it/ie make sure domain name does not change.
-        del kwargs['email']
+        del kwargs["email"]
         # remove pswd so not to be passed as raw. pswd must always be encripted.
-        del kwargs['password']
+        del kwargs["password"]
         user = self.model(email=self.normalize_email(email), **kwargs)
         user.set_password(password)  # when pswd is set, it becomes encripted.
         user.save()
@@ -42,10 +45,10 @@ class UserManager(BaseUserManager):
         Superuser powers means that this use is an admin that can do anything
         they want.
         """
-        password = kwargs.get('password', '')
-        email = kwargs.get('email', '')
-        del kwargs['email']
-        del kwargs['password']
+        password = kwargs.get("password", "")
+        email = kwargs.get("email", "")
+        del kwargs["email"]
+        del kwargs["password"]
         user = self.model(email=self.normalize_email(email), **kwargs)
         user.set_password(password)
         user.is_superuser = True
@@ -58,13 +61,13 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     first_name = models.CharField(db_index=True, max_length=255, unique=False)
     last_name = models.CharField(db_index=True, max_length=255, unique=False)
     username = models.CharField(
-        db_index=True, max_length=255, unique=True, default="default-username")
+        db_index=True, max_length=255, unique=True, default="default-username"
+    )
     email = models.EmailField(db_index=True, unique=True)
     is_active = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name',
-                       'last_name']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username", "first_name", "last_name"]
 
     # Tells Django that the UserManager class defined above should manage
     # objects of this type.
@@ -89,10 +92,10 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
         date = datetime.now() + timedelta(hours=settings.TOKEN_EXP_TIME)
 
         payload = {
-            'email': self.email,
-            'exp': int(date.strftime('%s')),
-            'id': self.id,
-            'username': self.username
+            "email": self.email,
+            "exp": int(date.strftime("%s")),
+            "id": self.id,
+            "username": self.username,
         }
-        token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+        token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
         return token

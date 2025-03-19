@@ -2,7 +2,6 @@ from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import LikeDislike, Article
 from .serializers import LikeDislikeSerializers
 from ..helpers.renderers import RequestJSONRenderer
 from .helpers.like_dislike_article import like_article
