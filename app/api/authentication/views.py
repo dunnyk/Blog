@@ -67,7 +67,7 @@ class RegistrationAPIView(generics.CreateAPIView):
         send_mail_.delay(
             subject=subject,
             message=message,
-            from_email=settings.EMAIL_SENDER,
+            from_email=settings.EMAIL_HOST_USER,
             recipient_list=[user_email],
             html_message=body,
             fail_silently=False,
