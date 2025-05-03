@@ -87,8 +87,10 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
 
     @property
     def token(self):
+        if not self.email or not self.username or not self.pk:
+            raise ValueError("Cannot generate token for unsaved"
+                             "or incomplete user.")
         # This method generates and returns a string of the token generated.
-
         date = datetime.now() + timedelta(hours=settings.TOKEN_EXP_TIME)
 
         payload = {
